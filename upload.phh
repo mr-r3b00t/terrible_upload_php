@@ -1,24 +1,33 @@
-
-
-
-    
-    
-    
-
-
-    
-Upload a File
-
-
-    
-" method="post" enctype="multipart/form-data">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload</title>
+</head>
+<body>
+    <h2>Upload a File</h2>
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
         Select file to upload:
-        
-        
-    
+        <input type="file" name="fileToUpload" id="fileToUpload">
+        <input type="submit" value="Upload File" name="submit">
+    </form>
 
+    <?php
+    if(isset($_POST["submit"])) {
+        $target_dir = "uploads/";
+        $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+        $uploadOk = 1;
+        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
 
-     5000000) {
+        // Check if file already exists
+        if (file_exists($target_file)) {
+            echo "Sorry, file already exists.";
+            $uploadOk = 0;
+        }
+
+        // Check file size (limit to 5MB in this example)
+        if ($_FILES["fileToUpload"]["size"] > 5000000) {
             echo "Sorry, your file is too large.";
             $uploadOk = 0;
         }
@@ -43,3 +52,5 @@ Upload a File
         }
     }
     ?>
+</body>
+</html>
